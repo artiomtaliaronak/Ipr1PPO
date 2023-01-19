@@ -1,2 +1,2 @@
 # Ipr1PPO
-![alt text](https://imgur.com/a/AA6WVcu)
+![alt text](https://i.imgur.com/ELzsKCm.png)
