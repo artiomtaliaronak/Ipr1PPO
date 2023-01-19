@@ -10,6 +10,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Handler;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -41,10 +44,11 @@ public class GameView extends View {
     int cooldown = 5;
     int cooldownTarget = 10;
     int cooldownPlatform = 10;
+    private Gyroscope gyroscope;
 
     public GameView(Context context) {
         super(context);
-        this.context  = context;
+        this.context = context;
         background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         ground = BitmapFactory.decodeResource(getResources(), R.drawable.ground);
         platform = BitmapFactory.decodeResource(getResources(), R.drawable.platform);
@@ -69,6 +73,22 @@ public class GameView extends View {
         targetX = dWidth/2 - target.getWidth()/2;
         targetY = 0;
         ball = new Ball(context);
+        gyroscope = new Gyroscope(this.context);
+        gyroscope.register();
+        gyroscope.setListener(new Gyroscope.Listener() {
+            @Override
+            public void onRotation(float rx, float ry, float rz) {
+                if (ry > 1.0f || ry < -1.0f){
+                    float newPlatformX = dWidth/2 - platform.getWidth()/2 + (ry * 30);
+                    if (newPlatformX <= 0)
+                        platformX = 0;
+                    else if (newPlatformX >= dWidth - platform.getWidth())
+                        platformX = dWidth - platform.getWidth();
+                    else
+                        platformX = newPlatformX;
+                }
+            }
+        });
     }
 
     @Override
@@ -157,15 +177,13 @@ public class GameView extends View {
         cooldown--;
         cooldownTarget--;
         cooldownPlatform--;
-
-
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float touchX = event.getX();
         float touchY = event.getY();
-        if (touchY >= platformY){
+        if (touchY >= 0){
             int action = event.getAction();
             if (action == MotionEvent.ACTION_DOWN){
                 oldX = event.getX();
