@@ -1,3 +1,4 @@
+
 package com.artiomtaliaronak.ipr1ppo;
 
 import android.content.Intent;
@@ -18,8 +19,9 @@ public class GameOver extends AppCompatActivity {
     ImageView ivNewHighest;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_over);
         tvPoints = findViewById(R.id.tvPoints);
         tvHighest = findViewById(R.id.tvHighest);
         ivNewHighest = findViewById(R.id.ivNewHighest);

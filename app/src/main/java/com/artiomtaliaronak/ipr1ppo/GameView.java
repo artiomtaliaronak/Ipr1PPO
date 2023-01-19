@@ -15,7 +15,6 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class GameView extends View {
@@ -40,6 +39,8 @@ public class GameView extends View {
     Explosion explosion;
     boolean isExplosion = false;
     int cooldown = 5;
+    int cooldownTarget = 10;
+    int cooldownPlatform = 10;
 
     public GameView(Context context) {
         super(context);
@@ -91,11 +92,11 @@ public class GameView extends View {
             explosion.explosionY = ball.ballY;
             ball.setPosition();
             life--;
-            if (life == 0){
+            if (life <= 0){
                 Intent intent = new Intent(context, GameOver.class);
                 intent.putExtra("points", points);
                 context.startActivity(intent);
-                ((Activity) context).finish();
+                ((Activity)context).finish();
             }
         }
         //if ball hits top
@@ -119,7 +120,7 @@ public class GameView extends View {
         && ball.ballY + ball.getBallHeight() >= platformY
         && cooldown <= 0){
             ball.ballVelocityY *= -1;
-            cooldown = 5;
+            cooldownPlatform = 10;
         }
         //if ball hits target
         if (ball.ballX + ball.getBallWidth() >= targetX
@@ -128,8 +129,9 @@ public class GameView extends View {
         && cooldown <= 0){
             ball.ballVelocityY *= -1;
             points++;
-            cooldown = 5;
+            cooldownTarget = 10;
         }
+
 
 
 
@@ -153,6 +155,9 @@ public class GameView extends View {
         canvas.drawText("" + points, 20, TEXT_SIZE, scorePaint);
         handler.postDelayed(runnable, UPDATE_FREQ);
         cooldown--;
+        cooldownTarget--;
+        cooldownPlatform--;
+
 
     }
 
