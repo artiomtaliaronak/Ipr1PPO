@@ -10,9 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Handler;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -151,7 +148,9 @@ public class GameView extends View {
             points++;
             cooldownTarget = 10;
         }
-
+        cooldown--;
+        cooldownTarget--;
+        cooldownPlatform--;
 
 
 
@@ -174,9 +173,7 @@ public class GameView extends View {
         canvas.drawRect(dWidth-200, 30, dWidth-200+60*life, 80, healthPaint);
         canvas.drawText("" + points, 20, TEXT_SIZE, scorePaint);
         handler.postDelayed(runnable, UPDATE_FREQ);
-        cooldown--;
-        cooldownTarget--;
-        cooldownPlatform--;
+
     }
 
     @Override
