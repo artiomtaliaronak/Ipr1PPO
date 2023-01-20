@@ -10,6 +10,10 @@
 
 Для тестирования управления наклоном потребуется расширенное меню управления сенсорами.
 
+## Тестирование
+
+Чтобы запустить тестирование выберите MainUnitTest в java/com/artiomtaliaronak/ipr1ppo/MainUnitTest.java и нажмите "Выполнить 'MainUnitTest'"
+
 ## Фотография зачётки
 
 ![alt text](https://i.imgur.com/ELzsKCm.png)
